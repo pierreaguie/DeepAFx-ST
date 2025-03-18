@@ -2,6 +2,8 @@ import torch
 import torchaudio
 import numpy as np
 
+from ..processors.autodiff.reverb import schroeder
+
 
 def gain(xs, min_dB=-12, max_dB=12):
 
@@ -233,3 +235,32 @@ def apply(xs, sr, augmentations):
             raise RuntimeError("Invalid augmentation: {aug}")
 
     return xs
+
+
+def reverb_corruption(xs, sr=44100):
+    """Apply a reverb effect."""
+
+    reverberance = (torch.rand([1]).numpy()[0] * 100) + 0
+    hf_damping = (torch.rand([1]).numpy()[0] * 100) + 0
+    room_scale = (torch.rand([1]).numpy()[0] * 100) + 0
+
+    effects = [
+        [
+            "reverb",
+            f"{reverberance}",
+            f"{hf_damping}",
+            f"{room_scale}",
+            "0",
+            "0",
+            "0",
+        ]
+    ]
+
+    for idx, x in enumerate(xs):
+        y, sr = torchaudio.sox_effects.apply_effects_tensor(
+            x.view(1, -1), sr, effects, channels_first=True
+        )
+        xs[idx] = y
+    
+    return xs
+        

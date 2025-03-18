@@ -14,7 +14,7 @@ from deepafx_st.models.controller import StyleTransferController
 from deepafx_st.processors.spsa.channel import SPSAChannel
 from deepafx_st.processors.spsa.eps_scheduler import EpsilonScheduler
 from deepafx_st.processors.proxy.channel import ProxyChannel
-from deepafx_st.processors.autodiff.channel import AutodiffChannel
+from deepafx_st.processors.autodiff.channel import AutodiffChannel, AutodiffChannelReverb
 
 
 class System(pl.LightningModule):
@@ -22,6 +22,7 @@ class System(pl.LightningModule):
         self,
         ext="wav",
         dsp_sample_rate=24000,
+        use_reverb=False,
         **kwargs,
     ):
         super().__init__()
@@ -33,7 +34,6 @@ class System(pl.LightningModule):
             self.hparams.spsa_factor,
             self.hparams.spsa_verbose,
         )
-
         self.hparams.dsp_mode = DSPMode.NONE
 
         # first construct the processor, since this will dictate encoder
@@ -44,7 +44,10 @@ class System(pl.LightningModule):
                 self.hparams.batch_size,
             )
         elif self.hparams.processor_model == "autodiff":
-            self.processor = AutodiffChannel(self.hparams.dsp_sample_rate)
+            if self.hparams.use_reverb:
+                self.processor = AutodiffChannelReverb(self.hparams.dsp_sample_rate)
+            else:
+                self.processor = AutodiffChannel(self.hparams.dsp_sample_rate)
         elif self.hparams.processor_model == "proxy0":
             # print('self.hparams.proxy_ckpts,',self.hparams.proxy_ckpts)
             self.hparams.dsp_mode = DSPMode.NONE
@@ -439,6 +442,7 @@ class System(pl.LightningModule):
                 "pitch": {"sr": self.hparams.sample_rate},
                 "tempo": {"sr": self.hparams.sample_rate},
             },
+            reverb_corrupt=self.hparams.use_reverb,
             freq_corrupt=self.hparams.freq_corrupt,
             drc_corrupt=self.hparams.drc_corrupt,
             ext=self.hparams.ext,
@@ -559,5 +563,8 @@ class System(pl.LightningModule):
         parser.add_argument("--val_length", type=int, default=131072)
         parser.add_argument("--val_examples_per_epoch", type=int, default=1000)
         parser.add_argument("--num_workers", type=int, default=16)
+        # --- Reverb  ---
+        parser.add_argument("--use_reverb", action="store_true", default = False)
+
 
         return parser

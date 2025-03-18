@@ -1,0 +1,8 @@
+file_id,filepath,type,subset
+Timboz-Pony.wav,/Data/musdb18_24000/Timboz-Pony.wav,input,val
+Titanium-HauntedAge.wav,/Data/musdb18_24000/Titanium-HauntedAge.wav,input,val
+TomMcKenzie-Directions.wav,/Data/musdb18_24000/TomMcKenzie-Directions.wav,input,val
+TrafficExperiment-OnceMore(WithFeeling).wav,/Data/musdb18_24000/TrafficExperiment-OnceMore(WithFeeling).wav,input,val
+TrafficExperiment-Sirens.wav,/Data/musdb18_24000/TrafficExperiment-Sirens.wav,input,val
+Triviul-Angelsaint.wav,/Data/musdb18_24000/Triviul-Angelsaint.wav,input,val
+Triviul-Dorothy.wav,/Data/musdb18_24000/Triviul-Dorothy.wav,input,val

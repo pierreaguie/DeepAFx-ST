@@ -16,3 +16,5 @@ audio/
 outputs/
 env_test/
 checkpoints/
+DeepAFxEnv
+sox-14.4.2

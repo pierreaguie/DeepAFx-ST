@@ -52,6 +52,7 @@ class AudioDataset(torch.utils.data.Dataset):
         augmentations: dict = {},
         freq_corrupt: bool = False,
         drc_corrupt: bool = False,
+        reverb_corrupt: bool = False,
         ext: str = "wav",
     ):
         super().__init__()
@@ -69,6 +70,7 @@ class AudioDataset(torch.utils.data.Dataset):
         self.random_scale_input = random_scale_input
         self.random_scale_target = random_scale_target
         self.augmentations = augmentations
+        self.reverb_corrupt = reverb_corrupt
         self.freq_corrupt = freq_corrupt
         self.drc_corrupt = drc_corrupt
         self.ext = ext
@@ -210,6 +212,8 @@ class AudioDataset(torch.utils.data.Dataset):
         else:
             input_audio_aug = input_audio.clone()
 
+        
+        # no reverb corruption for input audio
         input_audio_corrupt = input_audio_aug.clone()
         # apply frequency and dynamic range corrpution (expander)
         if self.freq_corrupt and torch.rand(1).sum() < 0.75:
@@ -230,6 +234,12 @@ class AudioDataset(torch.utils.data.Dataset):
         # use the same augmented audio clip, add different random EQ and compressor
 
         target_audio_corrupt = input_audio_aug.clone()
+
+        if self.reverb_corrupt and torch.rand(1).sum() < 0.75:
+            target_audio_corrupt = augmentations.reverb_corruption(
+                [target_audio_corrupt], self.sample_rate
+            )[0]
+
         # apply frequency and dynamic range corrpution (expander)
         if self.freq_corrupt and torch.rand(1).sum() < 0.75:
             target_audio_corrupt = augmentations.frequency_corruption(

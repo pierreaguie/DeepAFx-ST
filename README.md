@@ -68,8 +68,8 @@ Clone the repo, create a virtual environment, and then install the `deepafx_st` 
 cd <DeepAFx-ST>
 
 # Option 1: Using virtual envs
-python -m venv env/
-source env/bin/activate
+python -m venv DeepAFxEnv/
+source DeepAFxEnv/bin/activate
 
 # Option 2: Using conda
 conda create -n deepafx-st python=3.8 -y

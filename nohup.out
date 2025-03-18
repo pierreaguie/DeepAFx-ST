@@ -1,0 +1,46 @@
+Training autodiff on GPU 0 with learning rate = 1e-4
+Global seed set to 42
+/users/eleves-b/2021/pierre.aguie/DeepAFx-ST/DeepAFxEnv/lib64/python3.9/site-packages/pytorch_lightning/trainer/connectors/accelerator_connector.py:286: LightningDeprecationWarning: Passing `Trainer(accelerator='ddp')` has been deprecated in v1.5 and will be removed in v1.7. Use `Trainer(strategy='ddp')` instead.
+  rank_zero_deprecation(
+/users/eleves-b/2021/pierre.aguie/DeepAFx-ST/DeepAFxEnv/lib64/python3.9/site-packages/pytorch_lightning/trainer/connectors/accelerator_connector.py:324: LightningDeprecationWarning: Passing <pytorch_lightning.plugins.training_type.ddp.DDPPlugin object at 0x7f8e1984f2b0> `strategy` to the `plugins` flag in Trainer has been deprecated in v1.5 and will be removed in v1.7. Use `Trainer(strategy=<pytorch_lightning.plugins.training_type.ddp.DDPPlugin object at 0x7f8e1984f2b0>)` instead.
+  rank_zero_deprecation(
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+/users/eleves-b/2021/pierre.aguie/DeepAFx-ST/DeepAFxEnv/lib64/python3.9/site-packages/pytorch_lightning/core/lightning.py:2058: DeprecationWarning: `torch.distributed._sharded_tensor` will be deprecated, use `torch.distributed._shard.sharded_tensor` instead
+  from torch.distributed._sharded_tensor import pre_load_state_dict_hook, state_dict_hook
+Global seed set to 42
+initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/1
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 1 processes
+----------------------------------------------------------------------------------------------------
+
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+/users/eleves-b/2021/pierre.aguie/DeepAFx-ST/DeepAFxEnv/lib64/python3.9/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+
+  | Name         | Type                    | Params
+---------------------------------------------------------
+0 | processor    | AutodiffChannel         | 0     
+1 | encoder      | SpectralEncoder         | 9.1 M 
+2 | controller   | StyleTransferController | 596 K 
+3 | recon_losses | ModuleDict              | 0     
+---------------------------------------------------------
+596 K     Trainable params
+9.1 M     Non-trainable params
+9.7 M     Total params
+38.975    Total estimated model params size (MB)
+Encoder: 0.00 M
+Processor: 0.00 M
+Learning rate schedule: 0 1.00e-04 ->  16 1.00e-05 ->  19 1.00e-06
+Validation sanity check: 0it [00:00, ?it/s]
+  0%|                                                     | 0/7 [00:00<?, ?it/s][A100%|██████████████████████████████████████████| 7/7 [00:00<00:00, 20151.08it/s]
+/users/eleves-b/2021/pierre.aguie/DeepAFx-ST/DeepAFxEnv/lib64/python3.9/site-packages/pytorch_lightning/trainer/data_loading.py:110: UserWarning: The dataloader, val_dataloader 0, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 20 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+  rank_zero_warn(
+
+Loaded 7 files for val = 0.54 hours.
+Validation sanity check:   0%|          | 0/2 [00:00<?, ?it/s]/users/eleves-b/2021/pierre.aguie/DeepAFx-ST/DeepAFxEnv/lib64/python3.9/site-packages/torch/functional.py:709: UserWarning: A window was not provided. A rectangular window will be applied,which is known to cause spectral leakage. Other windows such as torch.hann_window or torch.hamming_window can are recommended to reduce spectral leakage.To suppress this warning and use a rectangular window, explicitly set `window=torch.ones(n_fft, device=<device>)`. (Triggered internally at /pytorch/aten/src/ATen/native/SpectralOps.cpp:836.)
+  return _VF.stft(  # type: ignore[attr-defined]
+    self._run()
+    sys.stderr.write(msg)
